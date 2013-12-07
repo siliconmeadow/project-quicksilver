@@ -26,26 +26,9 @@ Project Quicksilver uses [Ansible](http://ansible.cc/) to provision a full, high
 * You will need to add your Digital Ocean credentials to your `Vagrantfile` if you wish to provision with it. If only using VirtualBox, you can leave it unchanged.
 * If using Digital Ocean, install the [vagrant-digitalocean plugin](https://github.com/smdahlen/vagrant-digitalocean)
 
-* Add the following to your .bashrc or .zshrc file:
-
-        export ANSIBLE_HOSTS=~/ansible_hosts
-
-        #Add Vagrant key for Ansible/direct ssh to vagrant on 127.0.0.1:2222
-        # see http://stackoverflow.com/a/11832171/406226
-        ssh-add ~/.ssh/insecure_private_key &>/dev/null
-
-        #Configure for vagrant-digitalocean  https://github.com/smdahlen/vagrant-digitalocean\
-        export SSL_CERT_FILE=/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
-
-    (The `ssh-add` allows you and Ansible to access the vagrant vm through the vagrant user, which uses an ssh key (called insecure because the private and public keys are both publicly available) and won't take a password. If you don't do this, `ansible-playbook` commands will fail, but `vagrant provision` and `vagrant ssh` both take care of this for you, so they will still work).
-
 ##Run
 ###To build the full stack on a VirtualBox vm:
 * Update your `config.yml` and adjust `tuning.yml` if desired.
-* Place the following lines in your `ansible_hosts` file:
-
-        [vagrant]
-        127.0.0.1:2222
 * From your Project Quicksilver folder, run `vagrant up`. 
 * Once the playbook completes, you can go to your site at [http://localhost:8080](http://localhost:8080). phpMyAdmin is at [http://localhost:8080/phpmyadmin/](http://localhost:8080/phpmyadmin/) (please note that the trailing slash is required on VirtualBox due to port forwarding issues - on a production server, it will correctly redirect a request without the trailing slash). You can ssh in using `vagrant ssh`. If the provisioning process gets interrupted, you can rerun the playbook with `vagrant provision` - you may need to bounce the server (see below).
 
